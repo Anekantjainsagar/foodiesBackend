@@ -8,7 +8,7 @@ app.use(cors());
 //Database connection
 dotenv.config({ path: `./config.env` });
 
-const port = process.env.PORT;
+const port = 5000;
 require("./db/conn");
 // const User = require(`./model/userSchema`)
 
