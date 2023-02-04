@@ -71,8 +71,7 @@ Router.post("/login", async (req, res) => {
 });
 
 Router.get("/logout", (req, res) => {
-  res.clearCookie("jsonWebToken", { path: "/", domain: "localhost" });
-  res.status(200).send("User logged out");
+  res.clearCookie("jsonWebToken");
 });
 
 Router.get("/contact", (req, res) => {
