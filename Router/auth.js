@@ -1,13 +1,8 @@
+require("../db/conn");
 const express = require("express");
 const User = require("../model/userSchema");
-const jwt = require("jsonwebtoken");
 const Contact = require("../model/contactSchema");
 const Router = express.Router();
-require("../db/conn");
-
-Router.get("/", (req, res) => {
-  res.send("Hello world");
-});
 
 Router.post("/register", (req, res) => {
   const { name, email, number, password, cpassword } = req.body;
@@ -51,12 +46,6 @@ Router.post("/login", async (req, res) => {
     const userSignin = await User.findOne({ email: email });
 
     if (userSignin) {
-      token = await userSignin.genrateToken();
-      res.cookie("jsonWebToken", token, {
-        maxAge: new Date(Date.now() + 25892000000),
-        httpOnly: true,
-      });
-
       if (userSignin.password === password) {
         res.status(200).json({ message: "User signed in successfully" });
       } else {
@@ -70,14 +59,6 @@ Router.post("/login", async (req, res) => {
   }
 });
 
-Router.get("/logout", (req, res) => {
-  res.clearCookie("jsonWebToken");
-});
-
-Router.get("/contact", (req, res) => {
-  res.send("Welcome to the contact page");
-});
-
 Router.post("/contact", async (req, res) => {
   const { name, email, message } = req.body;
 
@@ -86,8 +67,6 @@ Router.post("/contact", async (req, res) => {
   }
 
   const dataCotact = await User.findOne({ email: email });
-
-  console.log(dataCotact);
 
   if (dataCotact) {
     if (dataCotact.email == email) {
@@ -102,14 +81,6 @@ Router.post("/contact", async (req, res) => {
   } else {
     return res.status(400).json({ msg: "User does not exist" });
   }
-});
-
-Router.get("/cart", (req, res) => {
-  res.send("Welcome to the cart page");
-});
-
-Router.get("/explore", (req, res) => {
-  res.send("Welcome to the explore page");
 });
 
 module.exports = Router;

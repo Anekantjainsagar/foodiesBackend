@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -31,16 +30,6 @@ const userSchema = new mongoose.Schema({
     },
   ],
 });
-
-userSchema.methods.genrateToken = async function () {
-  token = jwt.sign(
-    { _id: this._id },
-    "HELLOMYNAMEISANEKANTJAINANDIAMAMERNDEVELOPER"
-  );
-  this.tokens = this.tokens.concat({ token: token });
-  await this.save();
-  return token;
-};
 
 const User = mongoose.model("registration", userSchema);
 module.exports = User;
